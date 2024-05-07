@@ -2,10 +2,10 @@
 
 import datetime
 
+import boto3
 import cianparser
 import pandas as pd
 from dotenv import dotenv_values
-import boto3
 
 YOUR_ID = "25"
 
@@ -31,7 +31,7 @@ def main():
         with_saving_csv=True,
         additional_settings={
             "start_page": 1,
-            "end_page": 2,
+            "end_page": 50,
             "object_type": "secondary",
         },
     )
