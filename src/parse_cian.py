@@ -1,5 +1,3 @@
-"""https://github.com/lenarsaitov/cianparser"""
-
 import datetime
 
 import boto3
