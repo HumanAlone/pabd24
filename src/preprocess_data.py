@@ -1,5 +1,3 @@
-"""Transform raw data to train / val datasets"""
-
 import argparse
 import logging
 
