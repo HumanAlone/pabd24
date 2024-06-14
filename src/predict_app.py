@@ -1,10 +1,11 @@
 import os
+
 from dotenv import dotenv_values
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_cors import CORS
-from joblib import load
 from flask_httpauth import HTTPTokenAuth
-from flask import send_from_directory
+from joblib import load
+from utils import predict_cpu_bounded, predict_cpu_multithread, predict_io_bounded
 
 MODEL_SAVE_PATH = "models/linear_regression_v01.joblib"
 
@@ -34,9 +35,22 @@ def predict(in_data: dict) -> int:
     :return: House price, RUB.
     :rtype: int
     """
-    area = float(in_data["area"])
-    price = model.predict([[area]])
-    return int(price)
+
+    data = request.get_json()
+    area = data.get("area")
+    mode = data.get("mode")
+    n = data.get("n", 5_000_000)
+
+    if mode == "io":
+        result = predict_io_bounded(area)
+    elif mode == "cpu":
+        result = predict_cpu_bounded(area, n)
+    elif mode == "multithread":
+        result = predict_cpu_multithread(area, n)
+
+    # area = float(in_data["area"])
+    # price = model.predict([[area]])
+    return int(result)
 
 
 @app.route("/favicon.ico")
