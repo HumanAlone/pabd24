@@ -41,8 +41,7 @@ pip install -r requirements.txt
 [train_model.py](train_model.py)
 
 ### 6. Запуск приложения flask 
-
+gunicorn -b 0.0.0.0 -w 1 src.predict_app:app
 
 ### 7. Использование сервиса через веб интерфейс 
-
 Для использования сервиса используйте файл `web/index.html`.

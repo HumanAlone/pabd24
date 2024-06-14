@@ -1,8 +1,11 @@
+import os
+
 from dotenv import dotenv_values
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 from flask_httpauth import HTTPTokenAuth
 from joblib import load
+from utils import predict_cpu_bounded, predict_cpu_multithread, predict_io_bounded
 
 MODEL_SAVE_PATH = "models/linear_regression_v01.joblib"
 
@@ -32,14 +35,45 @@ def predict(in_data: dict) -> int:
     :return: House price, RUB.
     :rtype: int
     """
-    area = float(in_data["area"])
-    price = model.predict([[area]])
-    return int(price)
+
+    data = request.get_json()
+    area = data.get("area")
+    mode = data.get("mode")
+    n = data.get("n", 5_000_000)
+
+    if mode == "io":
+        result = predict_io_bounded(area)
+    elif mode == "cpu":
+        result = predict_cpu_bounded(area, n)
+    elif mode == "multithread":
+        result = predict_cpu_multithread(area, n)
+
+    # area = float(in_data["area"])
+    # price = model.predict([[area]])
+    return int(result)
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, "static"),
+        "favicon.ico",
+        mimetype="image/vnd.microsoft.icon",
+    )
 
 
 @app.route("/")
 def home():
-    return "<h1>Housing price service.</h1> Use /predict endpoint"
+    return """
+    <html>
+    <head>
+    <link rel="shortcut icon" href="/favicon.ico">
+    </head>
+    <body>
+    <h1>Housing price service.</h1> Use /predict endpoint
+    </body>
+    </html>
+    """
 
 
 @app.route("/predict", methods=["POST"])
