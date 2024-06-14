@@ -11,7 +11,6 @@ logging.basicConfig(
     format="%(asctime)s %(message)s",
 )
 
-
 IN_FILES = [
     "data/raw/1_2024-05-07_23-07.csv",
     "data/raw/2_2024-05-07_23-16.csv",
@@ -19,15 +18,16 @@ IN_FILES = [
 ]
 
 OUT_TRAIN = "data/proc/train.csv"
-OUT_VAL = "data/proc/val.csv"
+OUT_TEST = "data/proc/test.csv"
 
 TRAIN_SIZE = 0.9
+PRICE_THRESHOLD = 30_000_000
 
 
 def main(args):
-    main_dataframe = pd.read_csv(args.input[0], delimiter=",")
+    main_dataframe = pd.read_csv(args.input[0], delimiter=";")
     for i in range(1, len(args.input)):
-        data = pd.read_csv(args.input[i], delimiter=",")
+        data = pd.read_csv(args.input[i], delimiter=";")
         df = pd.DataFrame(data)
         main_dataframe = pd.concat([main_dataframe, df], axis=0)
 
@@ -36,21 +36,33 @@ def main(args):
         "url_id"
     )
 
-    new_df = new_dataframe[new_dataframe["price"] < 30_000_000]
+    new_df = new_dataframe[new_dataframe["price"] < PRICE_THRESHOLD]
 
     border = int(args.split * len(new_df))
     train_df, val_df = new_df[0:border], new_df[border:-1]
-    train_df.to_csv(OUT_TRAIN)
-    val_df.to_csv(OUT_VAL)
+    if args.split == 1:
+        train_df.to_csv(OUT_TRAIN)
+    elif args.split == 0:
+        val_df.to_csv(OUT_TEST)
+    elif 0 < args.split < 1:
+        train_df.to_csv(OUT_TRAIN)
+        val_df.to_csv(OUT_TEST)
+    else:
+        raise "Wrong split test size!"
+
     logger.info(
-        f"Write {args.input} to train.csv and val.csv. Train set size: {args.split}"
+        f"Write {args.input} to train.csv and test.csv. Train set size: {args.split}"
     )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-s", "--split", type=float, help="Split test size", default=TRAIN_SIZE
+        "-s",
+        "--split",
+        type=float,
+        help="Split data, test relative size, from 0 to 1",
+        default=TRAIN_SIZE,
     )
     parser.add_argument(
         "-i", "--input", nargs="+", help="List of input files", default=IN_FILES
