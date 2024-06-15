@@ -20,4 +20,3 @@ def predict_cpu_multithread(area, n=50_000_000):
     """Emulate multi thread computation"""
     avg_price = np.mean(np.arange(n))
     return int(area * avg_price)
-
