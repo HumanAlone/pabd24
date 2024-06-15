@@ -35,22 +35,21 @@ def predict(in_data: dict) -> int:
     :return: House price, RUB.
     :rtype: int
     """
+    # data = request.get_json()
+    # area = data.get("area")
+    # mode = data.get("mode")
+    # n = data.get("n", 5_000_000)
 
-    data = request.get_json()
-    area = data.get("area")
-    mode = data.get("mode")
-    n = data.get("n", 5_000_000)
-
-    if mode == "io":
-        result = predict_io_bounded(area)
-    elif mode == "cpu":
-        result = predict_cpu_bounded(area, n)
-    elif mode == "multithread":
-        result = predict_cpu_multithread(area, n)
-
-    # area = float(in_data["area"])
-    # price = model.predict([[area]])
-    return int(result)
+    # if mode == "io":
+    #     result = predict_io_bounded(area)
+    # elif mode == "cpu":
+    #     result = predict_cpu_bounded(area, n)
+    # elif mode == "multithread":
+    #     result = predict_cpu_multithread(area, n)
+    area = float(in_data["area"])
+    price = model.predict([[area]])
+    return int(price)
+    # return int(result)
 
 
 @app.route("/favicon.ico")
