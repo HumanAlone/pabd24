@@ -4,7 +4,8 @@ import requests
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
-endpoint = "http://127.0.0.1:5000/predict"
+# endpoint = "http://127.0.0.1:5000/predict"
+endpoint = "http://149.154.70.253:8000/predict"
 HEADERS = {"Authorization": f"Bearer {config['APP_TOKEN']}"}
 
 
@@ -12,7 +13,7 @@ def do_request(params):
     area, mode, n = params
     data = {"area": area, "mode": mode, "n": n}
     t0 = time.time()
-    resp = requests.post(endpoint, json=data, headers=HEADERS).text
+    resp = requests.post(endpoint, json=data, headers=HEADERS, timeout=45).text
     t = time.time() - t0
     return f"Waited {t:0.2f} sec " + resp
 
@@ -23,6 +24,6 @@ def test_10(mode, n):
 
 
 if __name__ == "__main__":
-    modes = [("io", None), ("cpu", 35_000_000), ("multithread", 75_000_000)]
+    modes = [("io", None), ("cpu", 5_000_000), ("multithread", 5_000_000)]
     for mode, n in modes:
         test_10(mode, n)
