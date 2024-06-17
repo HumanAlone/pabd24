@@ -8,7 +8,7 @@ __pycache__/
 
 # CSV
 *.csv
-
+service_test.py
 # Distribution / packaging
 .Python
 build/
