@@ -41,14 +41,20 @@ pip install -r requirements.txt
 [train_model.py](train_model.py)
 
 ### 6. Запуск приложения flask 
-```python3 src/predict_app.py```
+```sh
+python3 src/predict_app.py
+```
 
 ### 6. Запуск приложения gunicorn 
-```gunicorn -b 0.0.0.0 -w 1 src.predict_app:app```
+```sh
+gunicorn -b 0.0.0.0 -w 1 src.predict_app:app
+```
 
 ### 7. Использование сервиса через веб интерфейс 
 Для использования сервиса используйте ссылку "http://149.154.70.253:8000/predict".
 
 Для запуска приложения используйте docker:
 
-```docker run -p 8000:8000 pabd24:latest```
+```sh
+docker run -p 8000:8000 pabd24:latest
+```
