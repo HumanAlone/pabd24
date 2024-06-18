@@ -56,5 +56,5 @@ gunicorn -b 0.0.0.0 -w 1 src.predict_app:app
 Для запуска приложения используйте docker:
 
 ```sh
-docker run -p 8000:8000 pabd24:latest
+docker run -p 8000:8000 naryshkin/pabd24:latest
 ```
