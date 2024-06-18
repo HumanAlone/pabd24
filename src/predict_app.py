@@ -1,5 +1,7 @@
 import os
 import time
+
+import numpy as np
 from dotenv import dotenv_values
 from flask import Flask, request, send_from_directory
 from flask_cors import CORS
@@ -68,7 +70,6 @@ def predict(in_data: dict) -> int:
     area = float(in_data["area"])
     price = model.predict([[area]])
     return int(price)
-
 
 
 @app.route("/favicon.ico")
