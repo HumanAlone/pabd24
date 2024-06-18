@@ -1,10 +1,10 @@
-Waited 9.17 sec {"price":2000000}
- Waited 5.15 sec {"price":4000000}
- Waited 10.17 sec {"price":6000000}
- Waited 8.15 sec {"price":8000000}
- Waited 2.12 sec {"price":10000000}
- Waited 7.14 sec {"price":12000000}
- Waited 4.12 sec {"price":14000000}
- Waited 3.11 sec {"price":16000000}
- Waited 6.12 sec {"price":18000000}
- Waited 1.09 sec {"price":20000000}
+Waited 5.15 sec {"price":2000000}
+ Waited 9.16 sec {"price":4000000}
+ Waited 1.12 sec {"price":6000000}
+ Waited 3.12 sec {"price":8000000}
+ Waited 4.13 sec {"price":10000000}
+ Waited 2.11 sec {"price":12000000}
+ Waited 8.13 sec {"price":14000000}
+ Waited 6.12 sec {"price":16000000}
+ Waited 10.13 sec {"price":18000000}
+ Waited 7.12 sec {"price":20000000}
