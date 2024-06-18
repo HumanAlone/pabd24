@@ -5,7 +5,8 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 # endpoint = "http://127.0.0.1:5000/predict"
-endpoint = "http://149.154.70.253:8000/predict"
+# endpoint = "http://149.154.70.253:8000/predict"
+endpoint = "http://127.0.0.1:8080/predict"
 HEADERS = {"Authorization": f"Bearer {config['APP_TOKEN']}"}
 
 
